@@ -5,14 +5,11 @@ import 'package:infinite_list/posts/widgets/bottom_loader.dart';
 import 'package:infinite_list/posts/widgets/post_list_item.dart';
 
 class PostsList extends StatefulWidget {
-  const PostsList({Key? key}) : super(key: key);
-
   @override
   _PostsListState createState() => _PostsListState();
 }
 
 class _PostsListState extends State<PostsList> {
-
   final _scrollController = ScrollController();
 
   @override
@@ -25,25 +22,32 @@ class _PostsListState extends State<PostsList> {
   Widget build(BuildContext context) {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, state) {
-        switch (state.status){
+        switch (state.status) {
           case PostStatus.failure:
             return const Center(child: Text("Failed To Fetch Post"));
           case PostStatus.success:
-            if(state.posts.isEmpty){
-              return const Center(child: Text("No Post"),);
+            if (state.posts.isEmpty) {
+              return const Center(
+                child: Text("No Post"),
+              );
             }
-            return ListView.builder(itemBuilder: (BuildContext context, int index){
-              return index >= state.posts.length
-                  ? BottomLoader()
-                  : PostListItem(post: state.posts[index],);
-            },
+            return ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return index >= state.posts.length
+                    ? BottomLoader()
+                    : PostListItem(
+                        post: state.posts[index],
+                      );
+              },
               itemCount: state.hasReachedMax
-                ?state.posts.length
-                :state.posts.length + 1,
+                  ? state.posts.length
+                  : state.posts.length + 1,
               controller: _scrollController,
             );
           default:
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child:
+                CircularProgressIndicator()
+                );
         }
       },
     );
@@ -52,19 +56,18 @@ class _PostsListState extends State<PostsList> {
   @override
   void dispose() {
     _scrollController
-    ..removeListener(_onScroll)
-    ..dispose();
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
   }
-
 
   void _onScroll() {
     if (_isBottom) context.read<PostBloc>().add(PostFetched());
   }
 
-  bool get _isBottom{
-    if(!_scrollController.hasClients) return false;
-    final maxScroll  = _scrollController.position.maxScrollExtent;
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
     return currentScroll >= (maxScroll * 0.9);
   }

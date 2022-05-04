@@ -1,10 +1,10 @@
 part of 'post_bloc.dart';
 
+//this class will only be responding to a single event that is post fetch event
 abstract class PostEvent extends Equatable {
   const PostEvent();
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 

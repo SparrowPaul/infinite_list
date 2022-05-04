@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+// model class to model data received from @link {https://jsonplaceholder.typicode.com/posts}
+// for equality sake we are using Equatable
 
 class Post extends Equatable{
 
@@ -9,7 +11,6 @@ class Post extends Equatable{
   const Post({required this.id, required this.title, required this.body });
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [id,title,body];
+  List<Object> get props => [id,title,body];
 
 }

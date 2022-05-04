@@ -1,5 +1,7 @@
 part of 'post_bloc.dart';
 
+//on implementing the post fetched event, the app is expected to emit 3 states, ie initial, success, failure
+
 enum PostStatus { initial, success, failure }
 class PostState extends Equatable {
   final PostStatus status;
@@ -25,8 +27,7 @@ class PostState extends Equatable {
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props => throw [status, posts, hasReachedMax];
+  List<Object> get props => [status, posts, hasReachedMax];
 
   @override
   String toString() {
